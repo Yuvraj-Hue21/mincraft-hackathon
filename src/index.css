@@ -1,0 +1,166 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* === Voxel World Palette === */
+  --color-void: #0a0d0a;
+  --color-obsidian: #14131a;
+  --color-stone: #3d3d42;
+  --color-stone-light: #6b6b70;
+
+  --color-grass: #5a9c3f;
+  --color-grass-dark: #3d6b2b;
+  --color-dirt: #8b5a3c;
+
+  --color-torch: #f2a13c;
+  --color-torch-glow: #ffb347;
+
+  --color-nether: #b3392f;
+  --color-nether-glow: #ff5c4d;
+
+  --color-end: #a566d6;
+  --color-end-glow: #c88ff2;
+
+  --color-sky: #6fb8d9;
+  --color-diamond: #5fd6d6;
+
+  --color-parchment: #e8e1d0;
+  --color-ink: #1a1a1d;
+
+  --font-display: 'Press Start 2P', 'Courier New', monospace;
+  --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-stone) var(--color-void);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-void);
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-parchment);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.pixel-corners {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0, calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-void); }
+::-webkit-scrollbar-thumb { background: var(--color-stone); border: 2px solid var(--color-void); }
+
+/* === Custom animation utilities === */
+@keyframes float-particle {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  50% { transform: translateY(-40px) translateX(12px); }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-80px) translateX(-8px); opacity: 0; }
+}
+.animate-float-particle {
+  animation: float-particle 8s ease-in-out infinite;
+}
+
+@keyframes fog-drift {
+  0% { transform: translateX(0); opacity: 0.4; }
+  50% { transform: translateX(-40px); opacity: 0.7; }
+  100% { transform: translateX(0); opacity: 0.4; }
+}
+.animate-fog-drift {
+  animation: fog-drift 14s ease-in-out infinite;
+}
+
+@keyframes torch-flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.82; }
+  50% { opacity: 0.95; }
+  55% { opacity: 0.75; }
+  60% { opacity: 0.9; }
+}
+.animate-torch {
+  animation: torch-flicker 1.6s ease-in-out infinite;
+}
+
+@keyframes redstone-travel {
+  0% { background-position-x: 0; }
+  100% { background-position-x: 48px; }
+}
+.animate-redstone-line {
+  animation: redstone-travel 1.4s linear infinite;
+}
+
+@keyframes portal-beam {
+  0%, 100% { transform: scaleY(0.15) translateX(-50%); opacity: 0.25; }
+  50% { transform: scaleY(1) translateX(-50%); opacity: 0.8; }
+}
+.animate-portal-beam {
+  animation: portal-beam 6s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+.animate-marquee-reverse {
+  animation: marquee 26s linear infinite reverse;
+}
+
+@keyframes ken-burns {
+  0% { transform: scale(1.02) translate(0, 0); }
+  100% { transform: scale(1.14) translate(1.5%, -1.5%); }
+}
+.animate-ken-burns {
+  animation: ken-burns 26s ease-in-out infinite alternate;
+}
+.animate-ken-burns-reverse {
+  animation: ken-burns 30s ease-in-out infinite alternate-reverse;
+}
+
+/* custom cursor: hide native cursor only when the custom gauntlet cursor is active */
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button,
+.has-custom-cursor input,
+.has-custom-cursor textarea,
+.has-custom-cursor select {
+  cursor: none;
+}
+
+/* smooth scrolling handled by Lenis on desktop; fall back to native on mobile */
+@media (prefers-reduced-motion: no-preference) {
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: hidden; }
+}
+
